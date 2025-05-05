@@ -1,4 +1,5 @@
 import pandas as pd
+from datasets import load_dataset
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from keras.api.models import Sequential
@@ -6,13 +7,17 @@ from keras.api.layers import Embedding, GlobalAveragePooling1D, Dense
 from src.preprocess import preprocess_texts
 
 
-def train_model(dataset_path="data/emotions.csv"):
-    df = pd.read_csv(dataset_path)
+def train_model():
+    ds = load_dataset("dair-ai/emotion", "split")
+
+    df = pd.concat(
+        [ds["train"].to_pandas(), ds["validation"].to_pandas(), ds["test"].to_pandas()]
+    )
     texts, labels = df["text"].tolist(), df["label"].tolist()
 
     X, tokenizer = preprocess_texts(texts)
     le = LabelEncoder()
-    y = le.fit_tranform(labels)
+    y = le.fit_transform(labels)
 
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
 
@@ -32,5 +37,5 @@ def train_model(dataset_path="data/emotions.csv"):
         X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=16
     )
 
-    model.save("models/model.hs")
+    model.save("models/model.keras")
     return model, tokenizer, le
