@@ -98,4 +98,4 @@ Type `exit` to stop.
 
 ---
 
-Built with much effort by [Caio André](https://github.com/caio-andres) 💙
+Built with much effort by [Caio André](https://github.com/caio-andres) 😼
