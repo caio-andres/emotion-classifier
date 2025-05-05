@@ -9,3 +9,28 @@ from src.preprocess import preprocess_texts
 def train_model(dataset_path="data/emotions.csv"):
     df = pd.read_csv(dataset_path)
     texts, labels = df["text"].tolist(), df["label"].tolist()
+
+    X, tokenizer = preprocess_texts(texts)
+    le = LabelEncoder()
+    y = le.fit_tranform(labels)
+
+    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+
+    model = Sequential(
+        [
+            Embedding(input_dim=5000, output_dim=32, input_length=X.shape[1]),
+            GlobalAveragePooling1D(),
+            Dense(32, activation="relu"),
+            Dense(len(set(y)), activation="softmax"),
+        ]
+    )
+
+    model.compile(
+        loss="sparse_categorical_crossentropy", optimizer="adam", metrics=["accuracy"]
+    )
+    model.fit(
+        X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=16
+    )
+
+    model.save("models/model.hs")
+    return model, tokenizer, le
