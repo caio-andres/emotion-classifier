@@ -6,3 +6,7 @@
 
 # Cache
 __pycache__
+
+# Models
+*.keras
+*.pkl
