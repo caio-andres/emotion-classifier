@@ -96,13 +96,6 @@ Type `exit` to stop.
 - `pickle`: Saving and loading models and encoders
 - `pandas`: Data handling
 
-## Highlights
-
-- Uses real-world dataset from Hugging Face (20k+ samples)
-- Automates all steps from preprocessing to reuse
-- Handles training and loading automatically
-- Predicts emotions directly from your terminal
-
 ---
 
-Built with ❤️ by [Caio André](https://github.com/caio-andres)
+Built with much effort by [Caio André](https://github.com/caio-andres) 💙
